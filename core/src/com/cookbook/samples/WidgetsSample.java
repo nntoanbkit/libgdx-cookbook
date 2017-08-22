@@ -462,6 +462,8 @@ public class WidgetsSample extends GdxSample {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		super.render();
+
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f));
 		stage.draw();
 	}

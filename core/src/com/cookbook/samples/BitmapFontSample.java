@@ -71,6 +71,9 @@ public class BitmapFontSample extends GdxSample {
                 900.0f,
                 Align.left,
                 true);
+
+
+        font.draw(batch, "Jubei", 0, 0);
         batch.end();
     }
 
