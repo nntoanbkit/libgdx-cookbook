@@ -103,7 +103,7 @@ public class BlurSample extends GdxSample {
 		drawTexture(mountains, 0.0f, 0.0f);
 		batch.flush();
 		fboA.end();
-		applyBlur(3.0f);
+		applyBlur(30.0f);
 		
 		// Draw foreground and characters without blur effect
 		batch.setShader(null);
