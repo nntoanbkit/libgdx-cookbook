@@ -27,7 +27,7 @@ public class MeshLesson1 extends ApplicationAdapter {
     /**
      * Color attribute - (r, g, b, a)
      */
-    public static final int COLOR_COMPONENTS = 4;
+    public static final int COLOR_COMPONENTS = 1;
 
     /**
      * Total number of components for all attributes
@@ -74,7 +74,7 @@ public class MeshLesson1 extends ApplicationAdapter {
     public void create() {
         mesh = new Mesh(true, MAX_VERTICES, 0,
             new VertexAttribute(Usage.Position, POSITION_COMPONENTS, ShaderProgram.POSITION_ATTRIBUTE),
-            new VertexAttribute(Usage.ColorUnpacked, COLOR_COMPONENTS, ShaderProgram.COLOR_ATTRIBUTE));
+            new VertexAttribute(Usage.ColorPacked, 4, ShaderProgram.COLOR_ATTRIBUTE));
 
         camera = new OrthographicCamera();
         shader = createMeshShader();
@@ -107,32 +107,25 @@ public class MeshLesson1 extends ApplicationAdapter {
         //so we need to flush the batch if we can't store any more verts
         if (idx == vertices.length) flush();
 
+        float c = color.toFloatBits();
+
         //now we push the vertex data into our array
         //we are assuming (0, 0) is lower left, and Y is up
 
         // bottom left vertex
         vertices[idx++] = x;                    // position (x, y)
         vertices[idx++] = y;
-        vertices[idx++] = color.r;              // color (r, g, b, a)
-        vertices[idx++] = color.g;
-        vertices[idx++] = color.b;
-        vertices[idx++] = color.a;
+        vertices[idx++] = c;                    // color (r, g, b, a)
 
         // top left vertex
         vertices[idx++] = x;                    // position (x, y)
         vertices[idx++] = y + height;
-        vertices[idx++] = color.r;              // color (r, g, b, a)
-        vertices[idx++] = color.g;
-        vertices[idx++] = color.b;
-        vertices[idx++] = color.a;
+        vertices[idx++] = c;                    // color (r, g, b, a)
 
         // bottom right vertex
         vertices[idx++] = x + width;            // position (x, y)
         vertices[idx++] = y;
-        vertices[idx++] = color.r;              // color (r, g, b, a)
-        vertices[idx++] = color.g;
-        vertices[idx++] = color.b;
-        vertices[idx++] = color.a;
+        vertices[idx++] = c;                    // color (r, g, b, a)
     }
 
     private void flush() {
@@ -152,7 +145,7 @@ public class MeshLesson1 extends ApplicationAdapter {
         //number of vertices we need to render
         int vertexCount = idx / NUM_COMPONENTS;
 
-        //update the camera with our Y-up coordiantes
+        //update the camera with our Y-up coordinates
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         //start the shader before setting any uniforms
