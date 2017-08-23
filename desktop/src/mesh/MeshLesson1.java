@@ -2,6 +2,7 @@ package mesh;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
@@ -61,7 +62,7 @@ public class MeshLesson1 extends ApplicationAdapter {
     /**
      * The current index that we are pushing triangles into the array
      */
-    protected int idx = 0;
+    private int idx = 0;
 
     private Mesh mesh;
     private OrthographicCamera camera;
@@ -73,7 +74,7 @@ public class MeshLesson1 extends ApplicationAdapter {
     public void create() {
         mesh = new Mesh(true, MAX_VERTICES, 0,
             new VertexAttribute(Usage.Position, POSITION_COMPONENTS, ShaderProgram.POSITION_ATTRIBUTE),
-            new VertexAttribute(Usage.ColorPacked, COLOR_COMPONENTS, ShaderProgram.COLOR_ATTRIBUTE));
+            new VertexAttribute(Usage.ColorUnpacked, COLOR_COMPONENTS, ShaderProgram.COLOR_ATTRIBUTE));
 
         camera = new OrthographicCamera();
         shader = createMeshShader();
@@ -81,6 +82,12 @@ public class MeshLesson1 extends ApplicationAdapter {
 
     private ShaderProgram createMeshShader() {
         ShaderProgram.pedantic = false;
+        ShaderProgram shader = new ShaderProgram(Gdx.files.internal("triangle.vert"), Gdx.files.internal("triangle.frag"));
+
+        if (!shader.isCompiled())
+            Gdx.app.error("Mesh Lesson", "" + shader.getLog());
+
+        return shader;
     }
 
     @Override
@@ -164,5 +171,9 @@ public class MeshLesson1 extends ApplicationAdapter {
 
         //reset index to zero
         idx = 0;
+    }
+
+    public static void main(String[] args) {
+        new LwjglApplication(new MeshLesson1(), "Mesh", 800, 600);
     }
 }
